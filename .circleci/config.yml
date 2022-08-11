@@ -140,12 +140,12 @@ jobs:
             "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --query=Reservations[].Instances[].InstanceId --output text)
 
-            aws ec2 wait instance-status-ok --instance-ids ${INSTANCE_Id}
-            
-              BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --query 'Reservations[*].Instance[*].PublicIpAddress' \
-              --output text)
+            aws ec2 wait instance-status-ok --instance-ids $INSTANCE_Id
+
+            BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
+            --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --query 'Reservations[*].Instance[*].PublicIpAddress' \
+            --output text)
             echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
             echo backend-${CIRCLE_WORKFLOW_ID:0:7}
