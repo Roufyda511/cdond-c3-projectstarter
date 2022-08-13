@@ -12,6 +12,7 @@ commands:
           command: |
             echo "Destroying environment: <<parameters.workflow_id>> "
             aws cloudformation delete-stack --stack-name udapeople-backend-<<parameters.workflow_id>>
+            aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontend-<<parameters.workflow_id>>
 
   revert-migrations:
@@ -50,6 +51,18 @@ commands:
           command: |
             curl fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             sudo apt-get install -y node.js
+
+  install_ansible:
+      description: Install Ansible latest
+      steps:
+        - run:
+            name: Install Ansible latest
+            command: |
+              sudo apt update
+              sudo apt install software-properties-common
+              sudo add-apt-repository --yes --update ppa:ansible/ansible
+              sudo apt install ansible
+              sudo apt install ansible -y
 
             
 jobs:
@@ -281,10 +294,11 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:stable
     steps:
       - checkout
       - install-aws-cli
+      - install_ansible
       - install_nodejs
       - add_ssh_keys:
           fingerprints: ["c2:e8:9f:d7:f6:9e:48:b3:4b:1a:d5:99:0d:54:7a:0f"]
