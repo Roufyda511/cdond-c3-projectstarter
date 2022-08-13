@@ -1,0 +1,19 @@
+- name: "Install node "
+  become: yes
+  apt:
+    name: ["nodejs"]
+    state: latest
+    
+- name: "Install npm "
+  become: yes
+  apt:
+    name: ["npm"]
+    state: latest
+    
+- name: "Install pm2 "
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+    state: present
+    production: yes 
