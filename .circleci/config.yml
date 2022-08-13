@@ -316,8 +316,8 @@ jobs:
           command: |
             cd backend
             npm run build
+            tar -czvf artifact.tar.gz dist/* package*
             cd ..
-            tar -C backend -czvf artifact.tar.gz .
             cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
             cd .circleci/ansible
             cat inventory.txt
@@ -326,6 +326,46 @@ jobs:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}" 
+        
+  smoke-test:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - install-aws-cli
+      - install_ansible
+      - install_nodejs
+      - run:
+          name: BE smock test
+          command: |
+            BACKEND_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --query=Reservations[].Instances[].PublicIpAddress --output text)
+            export API_URL="http://${BACKEND_IP}:3030" 
+            echo "${API_URL}"
+            if curl "${API_URL}/api/status" | grep "ok"
+            then
+                return 0
+            else
+                return 1
+            fi
+      - run:
+          name: FE smock text
+          command: |
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
+            echo ${URL} 
+            if curl -s ${URL} | grep "Welcome"
+            then
+                # Change this to 0 after the job fails
+              return 1
+            else
+              return 1
+            fi
+      - destroy-environment:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      - revert-migrations:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}" 
+
+        
 
 
 workflows:
