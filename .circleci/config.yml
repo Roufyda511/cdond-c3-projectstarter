@@ -32,6 +32,17 @@ commands:
               npm install
               npm run migration:revert
             fi
+  install-aws-cli:
+    description: Install aws cli
+    steps:
+      - run:
+          name: Install aws cli
+        
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+
             
 jobs:
   build-frontend:
@@ -201,7 +212,7 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - install_awscli
+      - install-aws-cli
       - attach_workspace:
           at: ~/
       - run:
