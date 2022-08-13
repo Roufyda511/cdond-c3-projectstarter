@@ -9,10 +9,11 @@
     cd ~/backend_app
     unzip dist.zip
     rm -rf dist.zip
-    
+
 - name: "Install dependencies for project"
   shell: |
     cd ~/backend_app
+    sudo apt-get install -y node.js
     npm install
 
 - name: "Executing node"
