@@ -220,6 +220,7 @@ jobs:
           command: |
             cd backend
             npm install
+            nc -zv database-1.c7dnslekjaov.us-east-1.rds.amazonaws.com  5432
             npm run migrations >> migrations_dump.txt
             cat migrations_dump.txt
       - run:
