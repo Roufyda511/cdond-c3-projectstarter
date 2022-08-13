@@ -1,14 +1,6 @@
-- name: "Install node "
-  become: yes
-  apt:
-    name: ["nodejs"]
-    state: latest
-    
-- name: "Install npm "
-  become: yes
-  apt:
-    name: ["npm"]
-    state: latest
+- name: install node
+  shell: |
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - && sudo apt-get install -y nodejs
     
 - name: "Install pm2 "
   become: yes
