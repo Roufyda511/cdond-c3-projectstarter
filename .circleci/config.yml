@@ -206,7 +206,7 @@ jobs:
       - run:
           name: Run migrations
           command: |
-            pip install awscli
+
             cd backend
             npm install
             npm run migrations >> migrations_dump.txt
@@ -222,9 +222,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.circleci/outputs/
-      - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"   
+            - project/.circleci/outputs/ 
       - revert-migrations:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}" 
 
