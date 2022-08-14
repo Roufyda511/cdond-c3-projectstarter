@@ -49,7 +49,7 @@
 
 - name: "Executing node"
   args:
-    chdir: ~/backend/dist
+    chdir: ~/backend_app/dist
   environment:
       ENVIRONMENT: production
       TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
