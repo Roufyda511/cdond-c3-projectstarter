@@ -44,6 +44,7 @@
   shell: |
     export
     cd ~/backend_app
+    ls -R ~/backend_app 
     pm2 start main.js
   register: execute_node
 
