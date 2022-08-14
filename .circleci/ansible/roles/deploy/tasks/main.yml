@@ -1,4 +1,17 @@
-
+- name: "Install npm "
+  become: yes
+  apt:
+    name: ["npm"]
+    state: latest
+    
+- name: "Install pm2 "
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+    state: present
+    production: yes 
+    
 - name: "Creates backend app directory"
   file:
     path: ~/backend_app
