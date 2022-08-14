@@ -328,12 +328,14 @@ jobs:
         
   smoke-test:
     docker:
-      - image: cimg/base:stable
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - install-aws-cli
-      - install_ansible
-      - install_nodejs
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl nodejs npm 
+            pip install awscli
       - run:
           name: BE smock test
           command: |
@@ -359,10 +361,10 @@ jobs:
             else
               return 1
             fi
-      - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
-      - revert-migrations:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}" 
+     # - destroy-environment:
+     #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+     # - revert-migrations:
+     #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}" 
 
         
 
