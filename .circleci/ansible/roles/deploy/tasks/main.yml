@@ -1,3 +1,19 @@
+ name: "update apt packages."
+  apt:
+    update_cache: yes
+
+- name: "upgrade packages"
+  apt:
+    upgrade: yes
+
+- name: remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
+- name: install node
+  shell: |
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - && sudo apt-get install -y nodejs
+
 - name: "Install npm "
   become: yes
   apt:
@@ -11,7 +27,7 @@
     global: yes
     state: present
     production: yes 
-    
+
 - name: "Creates backend app directory"
   file:
     path: ~/backend_app
