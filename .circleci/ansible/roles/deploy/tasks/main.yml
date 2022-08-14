@@ -1,16 +1,3 @@
-- name: "Install node "
-  become: yes
-  apt:
-    name: ["nodejs"]
-    state: latest
-       
-- name: "Install pm2 "
-  become: yes
-  npm:
-    name: pm2
-    global: yes
-    state: present
-    production: yes 
 
 - name: "Creates backend app directory"
   file:
@@ -27,7 +14,6 @@
 - name: "Install dependencies for project"
   shell: |
     cd ~/backend_app
-    sudo apt-get install -y node.js
     npm install
 
 - name: "Executing node"
