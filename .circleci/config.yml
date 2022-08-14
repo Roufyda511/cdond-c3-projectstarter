@@ -294,12 +294,14 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - install-aws-cli
-      - install_ansible
-      - install_nodejs
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl nodejs npm ansible zip
+            pip install awscli
       - add_ssh_keys:
           fingerprints: ["c2:e8:9f:d7:f6:9e:48:b3:4b:1a:d5:99:0d:54:7a:0f"]
       - attach_workspace:
