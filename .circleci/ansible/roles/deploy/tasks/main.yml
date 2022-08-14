@@ -27,7 +27,7 @@
   file:
     path: ~/backend_app
     state: directory
-    
+
 - name: "Copy compiled backend app"
   copy:
     src: dist.zip
@@ -43,6 +43,12 @@
   shell: |
     cd ~/backend_app
     npm install
+
+- name: "Check app files"
+  shell: |
+    export
+    cd ~/backend_app
+    ls -R ~/backend_app 
 
 - name: "Executing node"
   shell: |
