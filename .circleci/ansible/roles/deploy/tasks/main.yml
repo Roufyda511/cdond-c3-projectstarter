@@ -14,11 +14,6 @@
   shell: |
     curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - && sudo apt-get install -y nodejs
 
-- name: "Install npm "
-  become: yes
-  apt:
-    name: ["npm"]
-    state: latest
     
 - name: "Install pm2 "
   become: yes
