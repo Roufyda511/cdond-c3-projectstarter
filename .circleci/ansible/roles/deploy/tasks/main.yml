@@ -25,7 +25,7 @@
 
 - name: "Creates backend app directory"
   file:
-    path: ~/backend_app
+    path: /home/ubuntu/backend_app
     state: directory
 
 
@@ -33,23 +33,23 @@
 - name: "Unzip backend files to correct directory"
   unarchive: 
     src: artifact.tar.gz 
-    dest: ~/backend_app
+    dest: /home/ubuntu/backend_app
   
 
 - name: "Install dependencies for project"
   shell: |
-    cd ~/backend_app
+    cd /home/ubuntu/backend_app
     npm install
 
 - name: "Check app files"
   shell: |
     export
-    cd ~/backend_app
-    ls -R ~/backend_app 
+    cd /home/ubuntu/backend_app
+    ls -R /home/ubuntu/backend_app 
 
 - name: "Executing node"
   args:
-    chdir: ~/backend_app/dist
+    chdir: /home/ubuntu/backend_app/dist
   environment:
       ENVIRONMENT: production
       TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
